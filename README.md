@@ -4,6 +4,11 @@
 
 ### 1. Bedtools
 -I used the bedtools hist output data from the sequence handling pipeline to graph coverage for the 24 samples\
+  -The -hist option outputs a histogram of coverage for each feature in the BED file as well as a summary histogram for all of the features in the BED file.\
+-Code to graph coverage was adapted from Stephen Turner's blog: http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html \
+  -Piped the output of bedtools to grep out only the lines starting with "all" \
+  -Plots the cumulative distribution describing the fraction of targeted bases that were covered by >10 reads, >20 reads, >80 reads, etc.\
+  -Depth on the x axis, and the fraction of capture target bases >/= depth on y-axis \
 -Coverage looks low, but Bedtools cannot map coverage on very large chromosomes. Therefore used Bedops to look at coverage
 
 ### 2. Bedops
