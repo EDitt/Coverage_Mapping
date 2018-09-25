@@ -4,7 +4,7 @@
 
 ### 1. Bedtools
 -I used the bedtools hist output data from the sequence handling pipeline to graph coverage for the 24 samples\
--Coverage looks low, but Bedtools cannot map coverage on very large chromosomes. Therefore used Bedops to look at coverage\
+-Coverage looks low, but Bedtools cannot map coverage on very large chromosomes. Therefore used Bedops to look at coverage
 
 ### 2. Bedops
 
