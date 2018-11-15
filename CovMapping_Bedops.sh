@@ -12,9 +12,7 @@ module load samtools_ML/1.8.0
 
 
 while read line; 
-do bam2bed < $line > $line.bed; done < bam_files2.txt 
-
-#make a list of bed files
+do bam2bed < $line > $line.bed; done < bam_files2.txt #converts bam files to bed files (needed in bedops)
 
 REGIONS_FILE=/panfs/roc/groups/9/morrellp/edittmar/Cov_mapping/Bedops/captured_50x_partsRef.bed
 
