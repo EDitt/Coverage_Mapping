@@ -1,0 +1,15 @@
+##this file
+
+
+read.coverage.map <- function(infile) {
+  cat('Reading in', infile, '\n', sep = ' ', file = stderr())
+  #Read in our coverage map
+  map <-read.table (file=infile, header=FALSE, as.is=TRUE, fill = TRUE)
+  return(map)
+
+
+
+
+```
+
+
