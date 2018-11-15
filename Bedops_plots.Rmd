@@ -1,0 +1,50 @@
+library(colorspace)
+library(RColorBrewer)
+library(ggplot2)
+library(ggthemes)
+
+files <- list.files() #creating a list of the files to use
+
+cov <- list ()
+
+for (i in 1:length(files)) {
+  cov[[i]] <-read.table(files[i], sep= "|") #read in the file
+  cov_sort[[i]] <- cov[[i]][order(cov[[i]]$V2),] #sort by depth
+  Totbases[[i]] = sum(cov_sort[[i]]$V3) #total number of bases
+  cov_sort[[i]]$Frac <- cov_sort[[i]]$V3/ Totbases[[i]] #fraction of total bases
+  cov_sort[[i]]$cumulfrac = 1- cumsum(cov_sort[[i]]$Frac) #cumulative fraction
+}
+
+cols<-rainbow_hcl(n=length(files))
+labs <- gsub(".bed.overlap", "", files) #removing the .bed.overlap for use in the legend
+
+##To make the Coverage figure
+png("exome_coverage_Bedops.png", h=1000, w=2000)
+
+par(mar=c(5,5,1,1))
+plot(cov_sort[[i]][,2], cov_sort[[i]][,6], type='n', xlab="Depth", ylab="Fraction of capture target bases \u2265 depth", ylim=c(0,1.0), xlim=c(1,1000), main="Target Region Coverage", cex.lab=2, cex.axis=2)
+abline(v = 20, col = "gray60")
+abline(v = 50, col = "gray60")
+abline(v = 80, col = "gray60")
+abline(v = 100, col = "gray60")
+abline(h = 0.50, col = "gray60")
+abline(h = 0.90, col = "gray60")
+axis(1, at=c(20,50,80), labels=c(20,50,80), cex.axis=2)
+axis(2, at=c(0.90), labels=c(0.90), cex.axis=2)
+axis(2, at=c(0.50), labels=c(0.50), cex.axis=2)
+
+for (i in 1:length(cov_sort)) {points(cov_sort[[i]][, 2], cov_sort[[i]][, 6], type='l', lwd=3, col=cols[i])
+legend("topright", legend=labs, col=cols, lty=1, lwd=4, cex=2, y.intersp = 1)
+}
+dev.off()
+
+##To make histograms for each sample
+
+par(mar=c(7,6,5,0))
+fnames <- gsub(".bed.overlap", ".png", files) #removing the .bed.overlap for use in the legend
+
+for (i in 1:length(cov_sort)) {
+  png(filename = fnames[[i]], h=500, w=1000)
+  hist((cov_sort[[i]]$V4), xlab = "% of target bases covered in each capture region", main=labs[[i]], cex=2, cex.axis=2, cex.lab=2)
+  dev.off()
+}
