@@ -1,15 +1,16 @@
-##this file
+###Edits in progress###
 
+#Adapted from: "Getting Genetics Done" - Stephen Turner blog
+#http://www.gettinggeneticsdone.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html
 
-read.coverage.map <- function(infile) {
-  cat('Reading in', infile, '\n', sep = ' ', file = stderr())
-  #Read in our coverage map
-  map <-read.table (file=infile, header=FALSE, as.is=TRUE, fill = TRUE)
-  return(map)
+files <- list.files(pattern=".hist") #creating a list of the files to use
 
+labs <- gsub(".hist", "", files) #removing the .hist for use in the legend
 
+cov <- list ()
+cov_cumul <- list ()
 
-
-```
-
-
+for (i in 1:length(files)) {
+  cov[[i]] <- read.table(files[i])
+  cov_cumul[[i]] <- 1-cumsum(cov[[i]][,5])
+}
